@@ -1,96 +1,47 @@
-function calcularPorcentajes() {
-  const candidatos = document.querySelectorAll('.candidate');
-  const votos = [];
-  let totalVotos = 0;
-
-  candidatos.forEach(c => {
-    const nombre = c.dataset.name;
-    const partido = c.dataset.party;
-    const img = c.dataset.img;
-    const valor = parseInt(c.querySelector('input').value) || 0;
-
-    if (valor < 0) {
-      alert(`Voto inválido para ${nombre}.`);
-      return;
-    }
-
-    votos.push({ nombre, partido, img, votos: valor });
-    totalVotos += valor;
-  });
-
-  if (totalVotos === 0) {
-    alert("Ingresá al menos un voto válido.");
-    return;
-  }
-
-  let porcentajes = votos.map(c => (c.votos / totalVotos) * 100);
-  let porcentajesRedondeados = porcentajes.map(p => Math.floor(p * 100) / 100);
-  let suma = porcentajesRedondeados.reduce((acc, p) => acc + p, 0);
-  let diferencia = parseFloat((100 - suma).toFixed(2));
-
-  if (diferencia !== 0) {
-    let residuos = porcentajes.map((p, i) => ({ i, residuo: p - porcentajesRedondeados[i] }));
-    residuos.sort((a, b) => b.residuo - a.residuo);
-    porcentajesRedondeados[residuos[0].i] += diferencia;
-  }
-
-  mostrarResultadosSimples(votos, porcentajesRedondeados, totalVotos);
-  generarMensajeWhatsApp(votos, porcentajesRedondeados, totalVotos);
-  enviarPorWhatsApp(votos, porcentajesRedondeados, totalVotos);
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  background-color: #f9f9f9;
+  color: #333;
 }
 
-function mostrarResultadosSimples(votos, porcentajes, totalVotos) {
-  const contenedor = document.getElementById('resultados');
-  contenedor.innerHTML = '';
-
-  const mesa = document.getElementById('mesa').value || "Mesa sin número";
-  const fiscal = document.getElementById('fiscal').value || "Fiscal sin nombre";
-
-  const resumen = document.createElement('div');
-  resumen.innerHTML = `
-    <h3>📍 Mesa ${mesa} – Fiscal: ${fiscal}</h3>
-    <p><strong>Total de votos:</strong> ${totalVotos}</p>
-    <p><strong>Suma de porcentajes:</strong> 100.00%</p>
-  `;
-  contenedor.appendChild(resumen);
-
-  votos.forEach((c, i) => {
-    const porcentaje = porcentajes[i].toFixed(2);
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.innerHTML = `
-      <img src="${c.img}" alt="${c.nombre}" />
-      <div class="info">
-        <h3>${c.nombre}</h3>
-        <p><strong>Partido:</strong> ${c.partido}</p>
-        <p><strong>Votos:</strong> ${c.votos}</p>
-        <p><strong>Porcentaje:</strong> ${porcentaje}%</p>
-      </div>
-    `;
-    contenedor.appendChild(card);
-  });
+header {
+  text-align: center;
+  margin-bottom: 30px;
 }
 
-function generarMensajeWhatsApp(votos, porcentajes, totalVotos) {
-  const mesa = document.getElementById('mesa').value || "Mesa sin número";
-  const fiscal = document.getElementById('fiscal').value || "Fiscal sin nombre";
-
-  let mensaje = `🗳️ *Resultados – Mesa ${mesa}, Fiscal ${fiscal}*\n\n`;
-  votos.forEach((c, i) => {
-    const porcentaje = porcentajes[i].toFixed(2);
-    mensaje += `• ${c.nombre} (${c.partido}): ${c.votos} votos – ${porcentaje}%\n`;
-  });
-  mensaje += `\n📊 Total de votos: ${totalVotos}\n✅ Porcentajes suman: 100.00%`;
-
-  const contenedor = document.getElementById('resultados');
-  const bloque = document.createElement('div');
-  bloque.innerHTML = `
-    <textarea readonly>${mensaje}</textarea>
-    <p><strong>📤 Copiá y pegá este mensaje en WhatsApp</strong></p>
-  `;
-  contenedor.appendChild(bloque);
+header img {
+  max-height: 100px;
 }
 
-function enviarPorWhatsApp(votos, porcentajes, totalVotos) {
-  const mesa = document.getElementById('mesa').value || "Mesa sin número";
-  const fiscal = document.getElementById('fiscal').value || "
+h1 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #222;
+  margin-top: 10px;
+}
+
+.candidato {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.candidato img {
+  height: 100px;
+  width: auto;
+  margin-right: 20px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.nombre {
+  font-size: 18px;
+  font-weight: bold;
+  color: #222;
+}
