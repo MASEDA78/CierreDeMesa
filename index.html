@@ -2,49 +2,67 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Mi Fiscal de Mesa 4.0</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <title>Cierre de Mesa - Castelli</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f9f9f9;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    header img {
+      max-height: 100px;
+    }
+    h1 {
+      font-size: 24px;
+      color: #333;
+    }
+    .candidato {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 10px;
+    }
+    .candidato img {
+      height: 100px;
+      margin-right: 20px;
+      border-radius: 8px;
+    }
+    .nombre {
+      font-size: 18px;
+      font-weight: bold;
+      color: #222;
+    }
+  </style>
 </head>
 <body>
-
   <header>
-    <img src="img/logo_castelli.png" alt="Logo Castelli" class="logo">
-    <h1>Mi Fiscal de Mesa 4.0</h1>
+    <img src="https://raw.githubusercontent.com/MASEDA78/CierreDeMesa/main/desender.png" alt="Logo Castelli">
+    <h1>Cierre de Mesa - Elecciones Castelli</h1>
   </header>
 
-  <section class="datos">
-    <input type="text" id="mesa" placeholder="Mesa N°" />
-    <input type="text" id="fiscal" placeholder="Nombre del fiscal" />
-  </section>
+  <div class="candidato">
+    <img src="https://raw.githubusercontent.com/MASEDA78/CierreDeMesa/main/Macias%20eugenia.jpg" alt="Macias Eugenia">
+    <div class="nombre">Macias Eugenia – Fuerza Patria</div>
+  </div>
 
-  <section class="candidatos">
-    <div class="candidate" data-name="MACIAS EUGENIA" data-party="FUERZA PATRIA" data-img="img/macias.png">
-      <input type="number" placeholder="Votos para MACIAS EUGENIA" />
-    </div>
+  <div class="candidato">
+    <img src="https://raw.githubusercontent.com/MASEDA78/CierreDeMesa/main/Aristizabal-Juan-Martin.jpg" alt="Aristizabal Juan Martín">
+    <div class="nombre">Aristizabal Juan Martín – UCR</div>
+  </div>
 
-    <div class="candidate" data-name="ARISTIZABAL JUAN MARTIN" data-party="UCR" data-img="img/aristizabal.png">
-      <input type="number" placeholder="Votos para ARISTIZABAL JUAN MARTIN" />
-    </div>
+  <div class="candidato">
+    <img src="https://raw.githubusercontent.com/MASEDA78/CierreDeMesa/main/sosa-Sergio.jpg" alt="Sosa Sergio">
+    <div class="nombre">Sosa Sergio – LLA-PRO</div>
+  </div>
 
-    <div class="candidate" data-name="SOSA SERGIO" data-party="LLA-PRO" data-img="img/sosa.png">
-      <input type="number" placeholder="Votos para SOSA SERGIO" />
-    </div>
-
-    <div class="candidate" data-name="CAMARA NAHUEL" data-party="UNIÓN LIBERAL" data-img="img/camara.png">
-      <input type="number" placeholder="Votos para CAMARA NAHUEL" />
-    </div>
-  </section>
-
-  <section class="acciones">
-    <button onclick="calcularPorcentajes()">Calcular y Enviar</button>
-    <button onclick="generarPDFConEncabezado()">📄 PDF con Encabezado</button>
-    <button onclick="generarPDFConFotosYEnviar()">📄 PDF + WhatsApp</button>
-  </section>
-
-  <section id="resultados"></section>
-
-  <script src="script.js"></script>
+  <div class="candidato">
+    <img src="https://raw.githubusercontent.com/MASEDA78/CierreDeMesa/main/Camara%20Nahuel.jpg" alt="Cámara Nahuel">
+    <div class="nombre">Cámara Nahuel – Unión Liberal</div>
+  </div>
 </body>
 </html>
