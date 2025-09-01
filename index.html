@@ -1,40 +1,45 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Mi Fiscal de Mesa 4.0</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cierre de Mesa - Castelli</title>
+  <link rel="stylesheet" href="styles.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
+  <header>
+    <img src="https://raw.githubusercontent.com/MASEDA78/CierreDeMesa/main/desender.png" alt="Logo Defender Castelli" class="logo" />
+    <h1>Cierre de Mesa</h1>
+  </header>
 
-  <h2>🗳️ Mi Fiscal de Mesa 4.0</h2>
+  <section class="form-section">
+    <label>Mesa: <input type="text" id="mesa" /></label>
+    <label>Fiscal: <input type="text" id="fiscal" /></label>
 
-  <label>Mesa:</label>
-  <input type="text" id="mesa" placeholder="Número de mesa">
-  <label>Fiscal:</label>
-  <input type="text" id="fiscal" placeholder="Nombre del fiscal">
+    <h2>Carga de Votos</h2>
+    <div class="candidato" data-nombre="Macias Eugenia" data-partido="Fuerza Patria" data-img="https://raw.githubusercontent.com/MASEDA78/CierreDeMesa/main/Macias%20eugenia.jpg">
+      <label>Macias Eugenia (Fuerza Patria): <input type="number" class="voto" /></label>
+    </div>
+    <div class="candidato" data-nombre="Aristizabal Juan Martín" data-partido="Somos Buenos Aires" data-img="https://raw.githubusercontent.com/MASEDA78/CierreDeMesa/main/Aristizabal-Juan-Martin.jpg">
+      <label>Aristizabal Juan Martín (Somos Buenos Aires): <input type="number" class="voto" /></label>
+    </div>
+    <div class="candidato" data-nombre="Sergio Sosa" data-partido="LLA-PRO" data-img="https://raw.githubusercontent.com/MASEDA78/CierreDeMesa/main/sosa-Sergio.jpg">
+      <label>Sergio Sosa (LLA-PRO): <input type="number" class="voto" /></label>
+    </div>
+    <div class="candidato" data-nombre="Camara Nahuel" data-partido="Unión Liberal" data-img="https://raw.githubusercontent.com/MASEDA78/CierreDeMesa/main/Camara%20Nahuel.jpg">
+      <label>Camara Nahuel (Unión Liberal): <input type="number" class="voto" /></label>
+    </div>
 
-  <div class="candidate" data-name="Juan Pérez" data-party="Partido A" data-img="https://via.placeholder.com/80">
-    <label>Juan Pérez (Partido A)</label>
-    <input type="number" min="0" placeholder="Votos">
-  </div>
+    <button onclick="calcularResultados()">Calcular</button>
+    <div id="resultados" class="resultados"></div>
 
-  <div class="candidate" data-name="María Gómez" data-party="Partido B" data-img="https://via.placeholder.com/80">
-    <label>María Gómez (Partido B)</label>
-    <input type="number" min="0" placeholder="Votos">
-  </div>
-
-  <div class="candidate" data-name="Carlos Ruiz" data-party="Partido C" data-img="https://via.placeholder.com/80">
-    <label>Carlos Ruiz (Partido C)</label>
-    <input type="number" min="0" placeholder="Votos">
-  </div>
-
-  <button onclick="calcularPorcentajes()">Calcular y mostrar resultados</button>
-  <button onclick="generarPDFConEncabezado()">Generar PDF</button>
-
-  <div id="resultados"></div>
+    <div id="acciones" style="display: none;">
+      <button onclick="generarPDF()">Generar PDF</button>
+      <button onclick="enviarWhatsApp()">Enviar por WhatsApp</button>
+    </div>
+  </section>
 
   <script src="script.js"></script>
 </body>
