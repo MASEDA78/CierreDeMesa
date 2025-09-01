@@ -1,144 +1,145 @@
-function calcularPorcentajes() {
-  const candidatos = document.querySelectorAll('.candidate');
-  const votos = [];
-  let totalVotos = 0;
+:root {
+  --celeste: #A7D8F0;
+  --azul: #005B99;
+  --blanco: #ffffff;
+  --gris: #f0f0f0;
+  --sombra: rgba(0, 0, 0, 0.1);
+  --borde: #d0d0d0;
+  --fuente: 'Segoe UI', sans-serif;
+}
 
-  candidatos.forEach(c => {
-    const nombre = c.dataset.name;
-    const partido = c.dataset.party;
-    const img = c.dataset.img;
-    const valor = parseInt(c.querySelector('input').value) || 0;
+body {
+  margin: 0;
+  font-family: var(--fuente);
+  background-color: var(--gris);
+  color: #333;
+}
 
-    if (valor < 0) {
-      alert(`Voto inválido para ${nombre}.`);
-      return;
-    }
+header {
+  background-color: var(--azul);
+  color: var(--blanco);
+  padding: 1rem;
+  text-align: center;
+}
 
-    votos.push({ nombre, partido, img, votos: valor });
-    totalVotos += valor;
-  });
+.logo {
+  height: 60px; /* Ajustado para mayor presencia institucional */
+  vertical-align: middle;
+  margin-right: 10px;
+  margin-bottom: 0.5rem;
+}
 
-  if (totalVotos === 0) {
-    alert("Ingresá al menos un voto válido.");
-    return;
+h1 {
+  font-size: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+.form-section {
+  background-color: var(--blanco);
+  margin: 1rem auto;
+  padding: 1.5rem;
+  max-width: 600px;
+  box-shadow: 0 2px 8px var(--sombra);
+  border-radius: 8px;
+}
+
+label {
+  display: block;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="number"] {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.3rem;
+  border: 1px solid var(--borde);
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+h2 {
+  margin-top: 2rem;
+  color: var(--azul);
+  font-size: 1.2rem;
+}
+
+.candidato {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background-color: var(--celeste);
+  border-radius: 6px;
+}
+
+button {
+  background-color: var(--azul);
+  color: var(--blanco);
+  border: none;
+  padding: 0.8rem 1.2rem;
+  margin-top: 1rem;
+  margin-right: 0.5rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #004070;
+}
+
+.resultados {
+  margin-top: 2rem;
+  background-color: var(--gris);
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.bloque-resultado {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  background-color: var(--blanco);
+  padding: 0.5rem;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px var(--sombra);
+  transition: transform 0.3s ease;
+}
+
+.bloque-resultado:hover {
+  transform: scale(1.02);
+}
+
+.bloque-resultado:not(:last-child) {
+  border-bottom: 1px solid var(--gris);
+}
+
+.bloque-resultado p strong {
+  font-size: 1.1rem;
+  color: var(--azul);
+}
+
+.foto-candidato {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 1rem;
+}
+
+@media (max-width: 600px) {
+  .form-section {
+    padding: 1rem;
+    margin: 0.5rem;
   }
 
-  let porcentajes = votos.map(c => (c.votos / totalVotos) * 100);
-  let porcentajesRedondeados = porcentajes.map(p => Math.floor(p * 100) / 100);
-  let suma = porcentajesRedondeados.reduce((acc, p) => acc + p, 0);
-  let diferencia = parseFloat((100 - suma).toFixed(2));
-
-  if (diferencia !== 0) {
-    let residuos = porcentajes.map((p, i) => ({ i, residuo: p - porcentajesRedondeados[i] }));
-    residuos.sort((a, b) => b.residuo - a.residuo);
-    porcentajesRedondeados[residuos[0].i] += diferencia;
+  h1 {
+    font-size: 1.2rem;
   }
 
-  mostrarResultadosSimples(votos, porcentajesRedondeados, totalVotos);
-  generarMensajeWhatsApp(votos, porcentajesRedondeados, totalVotos);
-  enviarPorWhatsApp(votos, porcentajesRedondeados, totalVotos);
-}
-
-function mostrarResultadosSimples(votos, porcentajes, totalVotos) {
-  const contenedor = document.getElementById('resultados');
-  contenedor.innerHTML = '';
-
-  const mesa = document.getElementById('mesa').value || "Mesa sin número";
-  const fiscal = document.getElementById('fiscal').value || "Fiscal sin nombre";
-
-  const resumen = document.createElement('div');
-  resumen.innerHTML = `
-    <h3>📍 Mesa ${mesa} – Fiscal: ${fiscal}</h3>
-    <p><strong>Total de votos:</strong> ${totalVotos}</p>
-    <p><strong>Suma de porcentajes:</strong> 100.00%</p>
-  `;
-  contenedor.appendChild(resumen);
-
-  votos.forEach((c, i) => {
-    const porcentaje = porcentajes[i].toFixed(2);
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.innerHTML = `
-      <img src="${c.img}" alt="${c.nombre}" />
-      <div class="info">
-        <h3>${c.nombre}</h3>
-        <p><strong>Partido:</strong> ${c.partido}</p>
-        <p><strong>Votos:</strong> ${c.votos}</p>
-        <p><strong>Porcentaje:</strong> ${porcentaje}%</p>
-      </div>
-    `;
-    contenedor.appendChild(card);
-  });
-}
-
-function generarMensajeWhatsApp(votos, porcentajes, totalVotos) {
-  const mesa = document.getElementById('mesa').value || "Mesa sin número";
-  const fiscal = document.getElementById('fiscal').value || "Fiscal sin nombre";
-
-  let mensaje = `🗳️ *Resultados – Mesa ${mesa}, Fiscal ${fiscal}*\n\n`;
-  votos.forEach((c, i) => {
-    const porcentaje = porcentajes[i].toFixed(2);
-    mensaje += `• ${c.nombre} (${c.partido}): ${c.votos} votos – ${porcentaje}%\n`;
-  });
-  mensaje += `\n📊 Total de votos: ${totalVotos}\n✅ Porcentajes suman: 100.00%`;
-
-  const contenedor = document.getElementById('resultados');
-  const bloque = document.createElement('div');
-  bloque.innerHTML = `
-    <textarea readonly>${mensaje}</textarea>
-    <p><strong>📤 Copiá y pegá este mensaje en WhatsApp</strong></p>
-  `;
-  contenedor.appendChild(bloque);
-}
-
-function enviarPorWhatsApp(votos, porcentajes, totalVotos) {
-  const mesa = document.getElementById('mesa').value || "Mesa sin número";
-  const fiscal = document.getElementById('fiscal').value || "Fiscal sin nombre";
-
-  let mensaje = `🗳️ *Resultados – Mesa ${mesa}, Fiscal ${fiscal}*\n\n`;
-  votos.forEach((c, i) => {
-    const porcentaje = porcentajes[i].toFixed(2);
-    mensaje += `• ${c.nombre} (${c.partido}): ${c.votos} votos – ${porcentaje}%\n`;
-  });
-  mensaje += `\n📊 Total de votos: ${totalVotos}\n✅ Porcentajes suman: 100.00%`;
-
-  const numero = "5491168650195";
-  const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
-  window.open(url, '_blank');
-}
-
-async function generarPDFConEncabezado() {
-  const resultados = document.getElementById('resultados');
-  if (!resultados) {
-    alert("Generá primero los resultados.");
-    return;
+  button {
+    width: 100%;
+    margin-bottom: 0.5rem;
   }
-
-  const mesa = document.getElementById('mesa').value || "Sin número";
-  const fiscal = document.getElementById('fiscal').value || "Sin nombre";
-
-  const { jsPDF } = window.jspdf;
-  const pdf = new jsPDF('p', 'mm', 'a4');
-  const pageWidth = pdf.internal.pageSize.getWidth();
-
-  const logo = new Image();
-  logo.src = 'https://raw.githubusercontent.com/MASEDA78/CierreDeMesa/main/desender.png';
-
-  logo.onload = async () => {
-    pdf.addImage(logo, 'PNG', 10, 10, 30, 30);
-    pdf.setFontSize(16);
-    pdf.text(`Cierre de Mesa ${mesa} – Fiscal ${fiscal}`, 50, 20);
-    pdf.setLineWidth(0.5);
-    pdf.line(10, 35, pageWidth - 10, 35);
-
-    const canvas = await html2canvas(resultados, { scale: 2 });
-    const imgData = canvas.toDataURL('image/png');
-    const imgProps = pdf.getImageProperties(imgData);
-    const ratio = imgProps.width / imgProps.height;
-    const pdfWidth = pageWidth - 20;
-    const pdfHeight = pdfWidth / ratio;
-
-    pdf.addImage(imgData, 'PNG', 10, 40, pdfWidth, pdfHeight);
-    pdf.save(`Cierre_Mesa_${mesa}.pdf`);
-  };
 }
