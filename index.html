@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mi Fiscal de Mesa 4.0</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+  <header>
+    <img src="img/logo_castelli.png" alt="Logo Castelli" class="logo">
+    <h1>Mi Fiscal de Mesa 4.0</h1>
+  </header>
+
+  <section class="datos">
+    <input type="text" id="mesa" placeholder="Mesa N°" />
+    <input type="text" id="fiscal" placeholder="Nombre del fiscal" />
+  </section>
+
+  <section class="candidatos">
+    <div class="candidate" data-name="MACIAS EUGENIA" data-party="FUERZA PATRIA" data-img="img/macias.png">
+      <input type="number" placeholder="Votos para MACIAS EUGENIA" />
+    </div>
+
+    <div class="candidate" data-name="ARISTIZABAL JUAN MARTIN" data-party="UCR" data-img="img/aristizabal.png">
+      <input type="number" placeholder="Votos para ARISTIZABAL JUAN MARTIN" />
+    </div>
+
+    <div class="candidate" data-name="SOSA SERGIO" data-party="LLA-PRO" data-img="img/sosa.png">
+      <input type="number" placeholder="Votos para SOSA SERGIO" />
+    </div>
+
+    <div class="candidate" data-name="CAMARA NAHUEL" data-party="UNIÓN LIBERAL" data-img="img/camara.png">
+      <input type="number" placeholder="Votos para CAMARA NAHUEL" />
+    </div>
+  </section>
+
+  <section class="acciones">
+    <button onclick="calcularPorcentajes()">Calcular y Enviar</button>
+    <button onclick="generarPDFConEncabezado()">📄 PDF con Encabezado</button>
+    <button onclick="generarPDFConFotosYEnviar()">📄 PDF + WhatsApp</button>
+  </section>
+
+  <section id="resultados"></section>
+
+  <script src="script.js"></script>
+</body>
+</html>
